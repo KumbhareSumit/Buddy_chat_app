@@ -1,0 +1,2 @@
+D:/flutterprojects/wechat/android/app/.cxx/Debug/19l4d6r3/x86/CMakeFiles/edit_cache.dir
+D:/flutterprojects/wechat/android/app/.cxx/Debug/19l4d6r3/x86/CMakeFiles/rebuild_cache.dir
