@@ -738,30 +738,47 @@ class _HomeScreenState extends State<HomeScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            RadioListTile<ThemeMode>(
+            ListTile(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14)),
+              leading: const Icon(CupertinoIcons.sun_max_fill,
+                  color: Colors.amber),
               title: const Text('Light'),
-              value: ThemeMode.light,
-              groupValue: themeNotifier.value,
-              onChanged: (mode) {
-                themeNotifier.value = mode!;
+              trailing: themeNotifier.value == ThemeMode.light
+                  ? const Icon(CupertinoIcons.checkmark_alt,
+                      color: Color(0xFF6C5CE7))
+                  : null,
+              onTap: () {
+                themeNotifier.value = ThemeMode.light;
                 Navigator.pop(context);
               },
             ),
-            RadioListTile<ThemeMode>(
+            ListTile(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14)),
+              leading: const Icon(CupertinoIcons.moon_fill,
+                  color: Color(0xFF6C5CE7)),
               title: const Text('Dark'),
-              value: ThemeMode.dark,
-              groupValue: themeNotifier.value,
-              onChanged: (mode) {
-                themeNotifier.value = mode!;
+              trailing: themeNotifier.value == ThemeMode.dark
+                  ? const Icon(CupertinoIcons.checkmark_alt,
+                      color: Color(0xFF6C5CE7))
+                  : null,
+              onTap: () {
+                themeNotifier.value = ThemeMode.dark;
                 Navigator.pop(context);
               },
             ),
-            RadioListTile<ThemeMode>(
+            ListTile(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14)),
+              leading: const Icon(CupertinoIcons.device_phone_portrait),
               title: const Text('System Default'),
-              value: ThemeMode.system,
-              groupValue: themeNotifier.value,
-              onChanged: (mode) {
-                themeNotifier.value = mode!;
+              trailing: themeNotifier.value == ThemeMode.system
+                  ? const Icon(CupertinoIcons.checkmark_alt,
+                      color: Color(0xFF6C5CE7))
+                  : null,
+              onTap: () {
+                themeNotifier.value = ThemeMode.system;
                 Navigator.pop(context);
               },
             ),

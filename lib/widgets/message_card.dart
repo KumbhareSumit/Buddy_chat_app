@@ -285,11 +285,11 @@ class _MessageCardState extends State<MessageCard> {
                   name: 'Copy Text',
                   onTap: () async {
                     await Clipboard.setData(
-                            ClipboardData(text: widget.message.msg))
-                        .then((value) {
+                        ClipboardData(text: widget.message.msg));
+                    if (context.mounted) {
                       Navigator.pop(context);
                       Dialogs.showSnackBar(context, 'Text Copied!');
-                    });
+                    }
                   },
                 ),
 
@@ -312,10 +312,11 @@ class _MessageCardState extends State<MessageCard> {
                       color: Colors.redAccent, size: 22),
                   name: 'Delete Message',
                   onTap: () async {
-                    await APIs.deleteMessage(widget.message).then((value) {
+                    await APIs.deleteMessage(widget.message);
+                    if (context.mounted) {
                       Navigator.pop(context);
                       Dialogs.showSnackBar(context, 'Message Deleted!');
-                    });
+                    }
                   },
                 ),
 
