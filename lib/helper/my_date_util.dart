@@ -50,8 +50,8 @@ class MyDateUtil{
   }
 
   // get month name from month no. or index
-  static String _getMonth(DateTime date){
-    switch (date.month){
+  static String _getMonth(DateTime date) {
+    switch (date.month) {
       case 1:
         return 'Jan';
       case 2:
@@ -78,5 +78,20 @@ class MyDateUtil{
         return 'Dec';
     }
     return 'NA';
+  }
+
+  // for getting formatted time from milliseconds string
+  static String getMessageTime(
+      {required BuildContext context, required String time}) {
+    final DateTime sent = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
+    final DateTime now = DateTime.now();
+
+    if (now.day == sent.day &&
+        now.month == sent.month &&
+        now.year == sent.year) {
+      return TimeOfDay.fromDateTime(sent).format(context);
+    }
+
+    return '${sent.day} ${_getMonth(sent)} ${sent.year} at ${TimeOfDay.fromDateTime(sent).format(context)}';
   }
 }

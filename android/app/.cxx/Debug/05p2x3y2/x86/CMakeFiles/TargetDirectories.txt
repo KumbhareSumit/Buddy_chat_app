@@ -1,0 +1,2 @@
+D:/FP/Buddy_chat/android/app/.cxx/Debug/05p2x3y2/x86/CMakeFiles/edit_cache.dir
+D:/FP/Buddy_chat/android/app/.cxx/Debug/05p2x3y2/x86/CMakeFiles/rebuild_cache.dir

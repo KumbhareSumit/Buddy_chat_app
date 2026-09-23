@@ -35,23 +35,17 @@ class _LoginScreenState extends State<LoginScreen> {
     Dialogs.showProgressBar(context);
 
     _signInWithGoogle().then((user) async {
-
       Navigator.pop(context);
-      if (user != null){
+      if (user != null) {
         dev.log('\nUser: ${user.user}');
         dev.log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
 
-        if((await APIs.userExists())){
+        await APIs.getSelfInfo().then((value) {
           Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-        }else{
-          await APIs.createUser().then((value){
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-          });
-        }
+              context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+        });
       }
-    } );
+    });
   }
     Future<UserCredential?>_signInWithGoogle() async {
      try{
@@ -79,49 +73,77 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-   // mq = MediaQuery.of(context).size;
     return Scaffold(
-      //app bar
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Welcome to Buddy Chat'),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: Stack(
+        children: [
+          // app logo
+          AnimatedPositioned(
+              top: mq.height * .2,
+              right: _Animate ? mq.width * .25 : -mq.width * .5,
+              width: mq.width * .5,
+              duration: const Duration(seconds: 1),
+              child: Image.asset('images/icon.png')),
 
-      ),
+          // Title & Description
+          Positioned(
+              top: mq.height * .45,
+              width: mq.width,
+              child: Column(
+                children: [
+                  Text(
+                    'Welcome Back',
+                    style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onSurface),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Sign in to continue chatting',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).textTheme.bodySmall?.color),
+                  ),
+                ],
+              )),
 
-      body: Stack(children: [
-
-
-        // app logo
-        AnimatedPositioned(
-            top: mq.height * .15,
-            right: _Animate ? mq.width * .25 : - mq.width * .5,
-            width: mq.width * .5,
-            duration: Duration(seconds: 1),
-            child: Image.asset('images/icon.png')),
-        // app sign in
-        Positioned(
-            bottom: mq.height * .15,
-            left: mq.width * .05,
-            height: mq.height * .06,
-            width: mq.width * .9,
-            child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.tealAccent),
-                onPressed: (){
-                  _handleGoogleBtnClick();
-                },
-
-                // google icon
-                icon:Image.asset('images/google.png',height: mq.height *.04,) ,
-                //login with google
-                label:RichText(text: TextSpan(
-                    style: TextStyle(color: Colors.black,fontSize: 20),
+          // login button
+          Positioned(
+              bottom: mq.height * .1,
+              left: mq.width * .1,
+              height: mq.height * .07,
+              width: mq.width * .8,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF6C5CE7),
+                      foregroundColor: Colors.white,
+                      elevation: 5,
+                      shadowColor: const Color(0xFF6C5CE7).withValues(alpha: 0.4),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22))),
+                  onPressed: () {
+                    _handleGoogleBtnClick();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                  TextSpan(text: 'Login with'),
-                  TextSpan(text: ' Google',style: TextStyle(fontWeight: FontWeight.w500))
-                ]))))
-      ],),
-
+                      Image.asset(
+                        'images/google.png',
+                        height: 24,
+                      ),
+                      const SizedBox(width: 12),
+                      const Text(
+                        'Continue with Google',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5),
+                      ),
+                    ],
+                  ))),
+        ],
+      ),
     );
-
   }
 }

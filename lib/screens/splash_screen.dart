@@ -8,7 +8,7 @@ import 'package:wechat/screens/auth/login_screen.dart';
 import 'package:wechat/screens/home_screen.dart';
 //import 'package:wechat/screens/home_screen.dart';
 import 'dart:developer' as dev;
-import '../../main.dart';
+import '../main.dart';
 import '../api/apis.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,54 +23,78 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(milliseconds: 2000),(){
+    Future.delayed(const Duration(milliseconds: 1500), () async {
       // Exit to full screen
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-      SystemChrome.setSystemUIOverlayStyle(
-          const SystemUiOverlayStyle(systemNavigationBarColor: Colors.deepPurpleAccent,statusBarColor: Colors.transparent));
-          if(APIs.auth.currentUser != null){
-            dev.log('\nUser: ${APIs.auth.currentUser}');
-            //navigate to home screen
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const HomeScreen()));
-          }else{//navigate to login screen
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const LoginScreen()));}
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.deepPurpleAccent,
+          statusBarColor: Colors.transparent));
 
+      if (APIs.auth.currentUser != null) {
+        dev.log('\nUser: ${APIs.auth.currentUser}');
+
+        //fetch self info
+        await APIs.getSelfInfo().then((value) {
+          //navigate to home screen
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+        });
+      } else {
+        //navigate to login screen
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+      }
     });
   }
   @override
   Widget build(BuildContext context) {
     mq = MediaQuery.of(context).size;
     return Scaffold(
-      //app bar
-      /*appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Welcome to Buddy Chat'),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        child: Stack(
+          children: [
+            // app logo
+            Center(
+              child: AnimatedContainer(
+                duration: const Duration(seconds: 1),
+                width: mq.width * .4,
+                child: Image.asset('images/icon.png'),
+              ),
+            ),
 
-      ),*/
-
-      body: Stack(children: [
-
-
-        // app logo
-        AnimatedPositioned(
-            top: mq.height * .15,
-            right:  mq.width * .25 ,
-            width: mq.width * .5,
-            duration: Duration(seconds: 1),
-            child: Image.asset('images/icon.png')),
-        // app sign in
-        Positioned(
-            bottom: mq.height * .15,
-            left: mq.width * .05,
-            height: mq.height * .06,
-            width: mq.width * .9,
-            child:Text('Welcome to over Chat app',textAlign: TextAlign.center ,
-              style: TextStyle(fontSize: 19,color: Colors.black87,letterSpacing: 2),)),
-      ]),
-
+            // Footer
+            Positioned(
+                bottom: mq.height * .1,
+                width: mq.width,
+                child: Column(
+                  children: [
+                    Text(
+                      'BUDDY CHAT',
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onSurface,
+                          letterSpacing: 2),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Connect with friends instantly',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).textTheme.bodySmall?.color,
+                          letterSpacing: .5),
+                    ),
+                  ],
+                )),
+          ],
+        ),
+      ),
     );
-
   }
 }

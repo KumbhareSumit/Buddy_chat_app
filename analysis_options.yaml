@@ -1,2 +1,2 @@
 # This file configures the analyzer, which statically analyzes Dart code to
-{ include: package:flutter_lints/flutter.yaml, linter: { rules: } }
+{ analyzer: {exclude: [build/**, android/**, ios/**, web/**, windows/**, macos/**]}, include: package:flutter_lints/flutter.yaml, linter: { rules: } }

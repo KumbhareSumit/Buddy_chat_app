@@ -1,0 +1,2 @@
+D:/FP/Buddy_chat/android/app/.cxx/Debug/05p2x3y2/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/FP/Buddy_chat/android/app/.cxx/Debug/05p2x3y2/armeabi-v7a/CMakeFiles/rebuild_cache.dir

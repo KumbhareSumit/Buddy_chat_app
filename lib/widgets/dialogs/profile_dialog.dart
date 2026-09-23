@@ -25,16 +25,22 @@ class ProfileDialog extends StatelessWidget {
 
             // user profile image
             Positioned(
-              top: mq.height*.075,
-              left: mq.width*.1,
+              top: mq.height * .075,
+              left: mq.width * .1,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(mq.height * .25),
-                child: CachedNetworkImage(
-                  width: mq.width *.5,
-                  fit: BoxFit.fill,
-                  imageUrl:user.image,
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => CircleAvatar(child: Icon(CupertinoIcons.person)),
+                child: Hero(
+                  tag: 'profile_${user.id}',
+                  child: CachedNetworkImage(
+                    width: mq.width * .5,
+                    height: mq.width * .5,
+                    fit: BoxFit.cover,
+                    imageUrl: user.image,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const CircleAvatar(child: Icon(CupertinoIcons.person)),
+                  ),
                 ),
               ),
             ),
